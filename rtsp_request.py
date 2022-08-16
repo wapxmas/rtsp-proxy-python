@@ -13,7 +13,7 @@ class RtspRequest:
     def __init__(self, request_string):
         self.request_string = request_string
 
-    def decode(self):
+    def parse(self):
         if self.request_string is None or len(self.request_string) == 0:
             raise Exception('Request string is empty or None')
 

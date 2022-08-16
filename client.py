@@ -20,7 +20,7 @@ def process_client(client_socket: socket.socket, client_address):
                     break
             print(f'------- client request: \r\n{request_bytes.decode()}')
             rtsp_request = RtspRequest(request_bytes.decode())
-            rtsp_request.decode()
+            rtsp_request.parse()
             if camera is None:
                 camera = Camera(rtsp_request.camera_id,
                                 rtsp_request.real_camera_url,
