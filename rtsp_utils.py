@@ -17,7 +17,7 @@ def is_response_full(response_bytes: bytearray) -> bool:
 def update_content_length(response: str) -> str:
     end_hdr_idx = response.find('\r\n\r\n')
     if response == -1:
-        raise Exception(f'No end headers marker in request/response: {end_hdr_idx}')
+        raise Exception(f'No end headers marker in request/response: {response}')
     if end_hdr_idx + 4 == len(response):
         return response
     h_parts = response[:end_hdr_idx].splitlines()
