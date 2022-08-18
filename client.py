@@ -16,8 +16,7 @@ def process_client(client_socket: socket.socket, client_address):
                 request_bytes.extend(data)
                 if request_bytes.find(b'\r\n\r\n') == -1:
                     continue
-                else:
-                    break
+                break
             print(f'------- client request: \r\n{request_bytes.decode()}')
             rtsp_request = RtspRequest(request_bytes.decode())
             rtsp_request.parse()

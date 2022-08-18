@@ -34,9 +34,11 @@ class RtspRequest:
         rtsp_url_parts = request_header[1].split('/')
 
         if len(rtsp_url_parts) < 4:
-            raise Exception(f'Rtsp url is not invalid for proxying: {request_header[1]}')
+            raise Exception(f'Rtsp url is not '
+                            f'invalid for proxying: {request_header[1]}')
 
-        self.real_camera_url = base64.urlsafe_b64decode(rtsp_url_parts[3]).decode()
+        self.real_camera_url = base64.urlsafe_b64decode(
+            rtsp_url_parts[3]).decode()
 
         self.camera_id = rtsp_url_parts[3]
 
@@ -46,7 +48,8 @@ class RtspRequest:
                 continue
             self.rtsp_headers[hdr_parts[0]] = hdr_parts[1].strip()
 
-    def make_camera_request(self, rtsp_camera_url: str, proxy_camera_url: str) -> str:
+    def make_camera_request(self, rtsp_camera_url: str,
+                            proxy_camera_url: str) -> str:
         new_request: str = f'{self.rtsp_type} ' \
                            f'{self.request_camera_url} ' \
                            f'{self.rtsp_version}\r\n'

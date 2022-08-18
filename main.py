@@ -36,6 +36,6 @@ client_threads = []
 
 while True:
     client_socket, (client_address, _) = server_socket.accept()
-    client_threads.append(Thread(target=process_client, args=(client_socket, client_address)))
+    client_threads.append(Thread(target=process_client,
+                                 args=(client_socket, client_address)))
     client_threads[-1].start()
-

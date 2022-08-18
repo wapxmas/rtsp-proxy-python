@@ -32,12 +32,14 @@ class Camera:
         else:
             self.camera_host = auth_parts[0]
 
-        self.camera_url = f'rtsp://{self.camera_host}/' + '/'.join(url_parts[3:])
+        self.camera_url = f'rtsp://{self.camera_host}/' \
+                          + '/'.join(url_parts[3:])
         self.proxy_camera_url = proxy_camera_url
         self.camera_id = camera_id
 
     def send_client_request(self, request: RtspRequest):
-        request_string = request.make_camera_request(self.camera_url, self.proxy_camera_url)
+        request_string = request.make_camera_request(
+            self.camera_url, self.proxy_camera_url)
         self.camera_socket.sendall(str.encode(request_string))
         print(request_string)
 
@@ -48,19 +50,19 @@ class Camera:
             response_bytes.extend(data)
             if not rtsp_utils.is_response_full(response_bytes):
                 continue
-            else:
-                break
+            break
         response_str = response_bytes.decode()
-        response_str = response_str.replace(self.camera_url, self.proxy_camera_url)
+        response_str = response_str.replace(self.camera_url,
+                                            self.proxy_camera_url)
         return rtsp_utils.update_content_length(response_str)
 
     def connect(self):
         host_parts = self.camera_host.split(':')
         self.camera_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.camera_socket.connect((host_parts[0], int(host_parts[1]) if len(host_parts) == 2 else 554))
+        camera_port = int(host_parts[1]) if len(host_parts) == 2 else 554
+        self.camera_socket.connect((host_parts[0], camera_port))
         print(f'Connected to camera {self.camera_host}')
 
     def disconnect(self):
         self.camera_socket.close()
         print(f'Disconnected from camera {self.camera_host}')
-        pass
