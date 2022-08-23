@@ -1,9 +1,9 @@
 import base64
-import sys
 import socket
-from threading import Thread
+import sys
 from argparse import ArgumentParser
-from client import process_client
+
+from client import ClientThread
 
 cmd_args_parser = ArgumentParser(prog="rtsp-proxy")
 
@@ -36,6 +36,5 @@ client_threads = []
 
 while True:
     client_socket, (client_address, _) = server_socket.accept()
-    client_threads.append(Thread(target=process_client,
-                                 args=(client_socket, client_address)))
+    client_threads.append(ClientThread(client_socket, client_address))
     client_threads[-1].start()
